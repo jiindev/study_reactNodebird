@@ -1,20 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import Link from 'next/link';
-import Head from 'next/head';
+import React from 'react';
 import AppLayout from '../components/AppLayout';
+import Head from 'next/head';
 
-const Home = () => {
-    return(
-       <>
-       <Head>
+const Signup = () => {
+    return (
+        <>
+        <Head>
            <title>Nodebird</title>
            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.26.9/antd.css"/>
        </Head>
         <AppLayout>
-            <div>Hello, next!</div>
+            <div>회원가입</div>
         </AppLayout>
         </>
     )
-};
+}
 
-export default Home;
+export default Signup;
