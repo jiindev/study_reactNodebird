@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import AppLayout from '../components/AppLayout';
-import Head from 'next/head';
+import React, {useState, useCallback} from 'react';
 import {Form, Input, Checkbox, Button} from 'antd';
+import Password from 'antd/lib/input/Password';
 
 const Signup = () => {
     const [nick, setNick] = useState('');
@@ -12,7 +11,7 @@ const Signup = () => {
     const [termError, setTermError] = useState(false);
 
 
-    const onSubmit = (e) => {
+    const onSubmit = useCallback((e) => {
         e.preventDefault();
         if(password !== passwordCheck){
             return setPasswordError(true);
@@ -23,39 +22,35 @@ const Signup = () => {
         console.log({
             id, nick, password, passwordCheck, term
         });
-    }
-    const onChangeNick = (e) => {
+    }, [password, passwordCheck, term]);
+    const onChangeNick = useCallback((e) => {
         setNick(e.target.value);
-    }
-    const onChangePassword = (e) => {
+    }, [nick]);
+    const onChangePassword = useCallback((e) => {
         setPassword(e.target.value);
-    }
-    const onChangePasswordChk = (e) => {
+    }, [password]);
+    const onChangePasswordChk = useCallback((e) => {
         setPasswordError(e.target.value !== password);
         setPasswordCheck(e.target.value);
-    }
-    const onChangeTerm = (e) => {
+    }, [password, passwordCheck]);
+    const onChangeTerm = useCallback((e) => {
         setTermError(false);
         setTerm(e.target.checked);
-    }
+    }, [term]);
 
     const useInput = (initValue = null) => {
         const [value, setter] = useState(initValue);
-        const handler = (e) => {
+        const handler = useCallback((e) => {
             setter(e.target.value);
-        }
+        }, [value]);
         return [value, handler];
     }
 
     const [id, onChangeId] = useInput('');
+    //커스텀 훅 사용
 
     return (
         <>
-        <Head>
-           <title>Nodebird</title>
-           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.26.9/antd.css"/>
-       </Head>
-        <AppLayout>
             <Form onSubmit = {onSubmit} style={{padding:'10px'}}>
                 <div>
                     <label htmlFor="user-id">아이디</label>
@@ -79,14 +74,13 @@ const Signup = () => {
                     {passwordError && <div style={{color:'red'}}>비밀번호가 일치하지 않습니다.</div>}
                 </div>
                 <div style={{marginTop:'10'}}>
-                    <Checkbox name="user-term" value={term} onChange={onChangeTerm}>이에 동의합니다.</Checkbox>
+                    <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>이에 동의합니다.</Checkbox>
                     {termError && <div style={{color:'red'}}>약관에 동의하세요</div>}
                 </div>
                 <div>
                     <Button type="primary" htmlType="submit">가입하기</Button>
                 </div>
             </Form>
-        </AppLayout>
         </>
     )
 }
