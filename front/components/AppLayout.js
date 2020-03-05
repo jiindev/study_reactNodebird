@@ -1,16 +1,19 @@
-import React from 'react';
-import {Menu, Input, Button, Row, Col, Card, Avatar} from 'antd';
+import React, {useState} from 'react';
+import {Menu, Input, Button, Row, Col, Card, Avatar, Form} from 'antd';
 import propTypes from 'prop-types';
 import Link from 'next/link';
+import LoginForm from './LoginForm';
 
 const dummy = {
     nickname: '지인쓰',
     Post:[],
     Followers:['33','3333'],
-    Followings:[]
+    Followings:['8888'],
+    isLoggedIn: false
 }
 
 const AppLayout = ({children}) => {
+    
     return(
         <div>
             <Menu mode="horizontal">
@@ -23,8 +26,10 @@ const AppLayout = ({children}) => {
             <Link href="signup"><Button>회원가입</Button></Link>
             <Row>
                 <Col xs={24} md={6}>
+                    {dummy.isLoggedIn 
+                    ?
                     <Card
-                        actions={[
+        actions={[
                             <div key="twit">짹짹<br/>{dummy.Post.length}</div>,
                             <div key="following">팔로잉<br/>{dummy.Followings.length}</div>,
                             <div key="follower">팔로워<br/>{dummy.Followers.length}</div>
@@ -35,6 +40,11 @@ const AppLayout = ({children}) => {
                             title={dummy.nickname}
                         />
                     </Card>
+                :
+                    <LoginForm/>
+                }
+                    
+                    
                 </Col>
                 <Col xs={24} md={12}>
                 {children}

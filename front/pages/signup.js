@@ -11,6 +11,13 @@ const TextInput = ({value}) => {
 TextInput.propTypes = {
     value:propTypes.string,
 }
+export const useInput = (initValue = null) => {
+    const [value, setter] = useState(initValue);
+    const handler = useCallback((e) => {
+        setter(e.target.value);
+    }, [value]);
+    return [value, handler];
+}
 
 const Signup = () => {
     const [nick, setNick] = useState('');
@@ -48,13 +55,7 @@ const Signup = () => {
         setTerm(e.target.checked);
     }, [term]);
 
-    const useInput = (initValue = null) => {
-        const [value, setter] = useState(initValue);
-        const handler = useCallback((e) => {
-            setter(e.target.value);
-        }, [value]);
-        return [value, handler];
-    }
+    
 
     const [id, onChangeId] = useInput('');
     //커스텀 훅 사용
