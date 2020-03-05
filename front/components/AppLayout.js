@@ -24,7 +24,7 @@ const AppLayout = ({children}) => {
                 </Menu.Item>
             </Menu>
             <Link href="signup"><Button>회원가입</Button></Link>
-            <Row>
+            <Row gutter={8}>
                 <Col xs={24} md={6}>
                     {dummy.isLoggedIn 
                     ?
