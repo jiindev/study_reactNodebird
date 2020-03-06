@@ -3,14 +3,14 @@ import {Form, Input, Checkbox, Button} from 'antd';
 import Password from 'antd/lib/input/Password';
 import propTypes from 'prop-types';
 
-const TextInput = ({value}) => {
-    return (
-        <div>{value}</div>
-    )
-};
-TextInput.propTypes = {
-    value:propTypes.string,
-}
+// const TextInput = ({value}) => {
+//     return (
+//         <div>{value}</div>
+//     )
+// };
+// TextInput.propTypes = {
+//     value:propTypes.string,
+// }
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
     const handler = useCallback((e) => {
@@ -63,7 +63,7 @@ const Signup = () => {
     return (
         <>
             <Form onSubmit = {onSubmit} style={{padding:'10px'}}>
-                <TextInput value={'135'}/>
+                {/* <TextInput value={'135'}/> */}
                 <div>
                     <label htmlFor="user-id">아이디</label>
                     <br/>
