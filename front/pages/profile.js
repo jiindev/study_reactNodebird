@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button, List, Card, Input, Icon} from 'antd';
+import {Button, List, Card, Icon} from 'antd';
 import NicknameEditForm from '../components/NicknameEditForm';
 
 const Profile = () => {

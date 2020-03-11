@@ -1,7 +1,7 @@
 {
     "parserOptions": {
         "ecmaVersion": 2019,
-        "sourceType": "script",
+        "sourceType": "module", //script
         "ecmaFeatures":{
             "jsx": true
         }
@@ -11,7 +11,7 @@
         "node": true
     },
     "extends": [
-        "eslint:recommended",
+        // "eslint:recommended",
         "plugin:react/recommended"
     ],
     "plugins": [

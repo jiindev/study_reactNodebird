@@ -1,5 +1,13 @@
 export const initialState = {
-    mainPosts: [],
+    mainPosts: [{
+        User:{
+            id:1,
+            nickname:'지인지인',
+        },
+        content:'첫 게시글!!!!!!',
+        img:'https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg'
+    }],
+    imagePaths: []
 };
 
 const ADD_POST = 'ADD_POST';

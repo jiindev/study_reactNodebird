@@ -4,16 +4,11 @@ import propTypes from 'prop-types';
 import Link from 'next/link';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import { useSelector } from 'react-redux';
 
-const dummy = {
-    nickname: '지인쓰',
-    Post:[],
-    Followers:['33','3333'],
-    Followings:['8888'],
-    isLoggedIn: false
-}
 
 const AppLayout = ({children}) => {
+    const {isLoggedIn} = useSelector(state=>state.user);
     
     return(
         <div>
@@ -26,7 +21,7 @@ const AppLayout = ({children}) => {
             </Menu>
             <Row gutter={8}>
                 <Col xs={24} md={6}>
-                    {dummy.isLoggedIn 
+                    {isLoggedIn 
                     ?
                     <UserProfile/>
                 :
