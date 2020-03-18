@@ -9,11 +9,18 @@ const Home = () => {
     const dispatch = useDispatch();
     const {user, isLoggedIn} = useSelector(state=>state.user);
     const {mainPosts} = useSelector(state=>state.post);
-    // useEffect(()=>{
-    //     dispatch(loginAction);
-    //     dispatch(logoutAction);
-    //     dispatch(loginAction);
-    // }, []);
+
+    useEffect(()=>{
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+    }, []);
     return(
        <>
             <div>
