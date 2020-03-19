@@ -11,9 +11,24 @@ const Home = () => {
     const {mainPosts} = useSelector(state=>state.post);
 
     useEffect(()=>{
-        // dispatch({
-        //     type: 'LOG_IN'
-        // });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
+        dispatch({
+            type: 'HELLO_SAGA'
+        });
     }, []);
     return(
        <>
