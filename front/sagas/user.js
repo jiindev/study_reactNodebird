@@ -1,4 +1,4 @@
-import {all, fork, takeLatest, call, put, take} from 'redux-saga/effects';
+import {all, fork, takeLatest, call, put, take, delay} from 'redux-saga/effects';
 import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from '../reducers/user';
 
 const HELLO_SAGA = 'HELLO_SAGA';
@@ -21,18 +21,25 @@ function* login(){
 
 }
 function* watchLogin(){
-    yield takeLatest(LOG_IN, login)
+    while(true){
+        yield take(LOG_IN);
+        yield delay(2000);
+        yield put({
+            type:LOG_IN_SUCCESS,
+        })
+    }
+    
 }
 
-function* helloSaga(){
-    console.log('before saga');
-    while(true){
-        yield take(HELLO_SAGA);
-        console.log('hello saga');
-        //비동기 요청, 타이머 가능
-    }
+
+function* watchSignUp(){
+
 }
 
 export default function* userSaga(){
-    yield helloSaga();
+    yield all([
+        // watchHello(),
+        watchLogin(),
+        watchSignUp(),
+    ]);
 }
