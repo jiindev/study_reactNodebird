@@ -7,19 +7,19 @@ function loginAPI(){
     //서버에 요청을 보내는 부분
 }
 function* login(){
-    try{
+    try {
         yield call(loginAPI);  //함수 동기적 호출 (응답을 받을 때까지 기다림)
         yield put({ //put은 dispatch와 동일
-            type: LOG_IN_SUCCESS
-        })
-    }catch (e){
+            type: LOG_IN_SUCCESS,
+        });
+    } catch (e){
         console.error(e);
         yield put({
-            type:LOG_IN_FAILURE
-        })
+            type: LOG_IN_FAILURE,
+        });
     }
 
-}
+};
 function* watchLogin(){
     yield takeEvery(LOG_IN, login);
 }
@@ -27,8 +27,8 @@ function* watchLogin(){
 function* hello(){
     yield delay(1000);
     yield put({
-        type:'BYE_SAGA' //액션을 여러번 동시에 요청할 경우 마지막꺼만 처리
-    })
+        type: 'BYE_SAGA', //액션을 여러번 동시에 요청할 경우 마지막꺼만 처리
+    });
 }
 
 function* watchHello(){
@@ -51,9 +51,7 @@ function* watchHello(){
 //     }
 // }
 
-function* watchSignUp(){
-    
-}
+function* watchSignUp(){}
 
 export default function* userSaga(){
     yield all([
