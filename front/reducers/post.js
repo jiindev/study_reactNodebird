@@ -1,8 +1,8 @@
 export const initialState = {
     mainPosts: [{
-        User:{
-            id:1,
-            nickname:'지인지인',
+        User: {
+            id: 1,
+            nickname: '지인지인',
         },
         content:'첫 게시글!!!!!!',
         img:'https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg'
@@ -62,17 +62,7 @@ export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
 
 
 const addPost = {
-    type: ADD_POST,
-};
-const addDummy = {
-    type: ADD_DUMMY,
-    data: {
-        content: 'Hello',
-        UserId: 1,
-        User:{
-            nickname: '지인쓰'
-        }
-    }
+    type: ADD_POST_REQUEST,
 };
 
 const reducer = (state = initialState, action) => {

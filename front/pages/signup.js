@@ -3,7 +3,7 @@ import {Form, Input, Checkbox, Button} from 'antd';
 import Password from 'antd/lib/input/Password';
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { signUpAction } from '../reducers/user';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 
 // const TextInput = ({value}) => {
 //     return (
@@ -28,22 +28,26 @@ const Signup = () => {
     const [term, setTerm] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [termError, setTermError] = useState(false);
+    const [id, onChangeId] = useInput(''); // 커스텀 훅 사용
     const dispatch = useDispatch();
 
 
     const onSubmit = useCallback((e) => {
         e.preventDefault();
-        if(password !== passwordCheck){
+        if (password !== passwordCheck){
             return setPasswordError(true);
         }
-        if(!term){
+        if (!term){
             return setTermError(true);
         }
-        dispatch(signUpAction({
-            id,
-            password,
-            nick,
-        }));
+        dispatch({
+            type: SIGN_UP_REQUEST,
+            data: {
+                id,
+                password,
+                nick,
+            },
+        });
     }, [password, passwordCheck, term]);
     const onChangeNick = useCallback((e) => {
         setNick(e.target.value);
@@ -59,11 +63,6 @@ const Signup = () => {
         setTermError(false);
         setTerm(e.target.checked);
     }, [term]);
-
-    
-
-    const [id, onChangeId] = useInput('');
-    //커스텀 훅 사용
 
     return (
         <>
