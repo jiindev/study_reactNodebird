@@ -6,6 +6,7 @@ export const initialState = {
         },
         content: '첫 게시글!!!!!!',
         img: 'https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg',
+        Comments: [],
     }], // 화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로
     addPostErrorReason: false, // 포스트 업로드 실패 사유
