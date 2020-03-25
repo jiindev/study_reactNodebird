@@ -1,8 +1,10 @@
-import React, {useState, useCallback} from 'react';
-import {Form, Input, Checkbox, Button} from 'antd';
+import React, { useState, useCallback } from 'react';
+import {
+ Form, Input, Checkbox, Button,
+} from 'antd';
 import Password from 'antd/lib/input/Password';
 import propTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 
 // const TextInput = ({value}) => {
@@ -19,7 +21,7 @@ export const useInput = (initValue = null) => {
         setter(e.target.value);
     }, [value]);
     return [value, handler];
-}
+};
 
 const Signup = () => {
     const [nick, setNick] = useState('');
@@ -30,6 +32,7 @@ const Signup = () => {
     const [termError, setTermError] = useState(false);
     const [id, onChangeId] = useInput(''); // 커스텀 훅 사용
     const dispatch = useDispatch();
+    const { isSigningUp } = useSelector(state => state.user);
 
 
     const onSubmit = useCallback((e) => {
@@ -65,40 +68,40 @@ const Signup = () => {
     }, [term]);
 
     return (
-        <>
-            <Form onSubmit = {onSubmit} style={{padding:'10px'}}>
-                {/* <TextInput value={'135'}/> */}
-                <div>
-                    <label htmlFor="user-id">아이디</label>
-                    <br/>
-                    <Input name="user-id" value={id} required onChange={onChangeId}/>
-                </div>
-                <div>
-                    <label htmlFor="user-nick">닉네임</label>
-                    <br/>
-                    <Input name="user-nick" value={nick} required onChange={onChangeNick}/>
-                </div>
-                <div>
-                    <label htmlFor="user-password">비밀번호</label>
-                    <br/>
-                    <Input name="user-password" value={password} type="password" required onChange={onChangePassword}/>
-                </div>
-                <div>
-                    <label htmlFor="user-password-chk">비밀번호 체크</label>
-                    <br/>
-                    <Input name="user-password-check" value={passwordCheck} type="password" required onChange={onChangePasswordChk}/>
-                    {passwordError && <div style={{color:'red'}}>비밀번호가 일치하지 않습니다.</div>}
-                </div>
-                <div style={{marginTop:'10'}}>
-                    <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>이에 동의합니다.</Checkbox>
-                    {termError && <div style={{color:'red'}}>약관에 동의하세요</div>}
-                </div>
-                <div>
-                    <Button type="primary" htmlType="submit">가입하기</Button>
-                </div>
-            </Form>
-        </>
-    )
-}
+      <>
+        <Form onSubmit={onSubmit} style={{ padding: '10px' }}>
+          {/* <TextInput value={'135'}/> */}
+          <div>
+            <label htmlFor="user-id">아이디</label>
+            <br />
+            <Input name="user-id" value={id} required onChange={onChangeId} />
+          </div>
+          <div>
+            <label htmlFor="user-nick">닉네임</label>
+            <br />
+            <Input name="user-nick" value={nick} required onChange={onChangeNick} />
+          </div>
+          <div>
+            <label htmlFor="user-password">비밀번호</label>
+            <br />
+            <Input name="user-password" value={password} type="password" required onChange={onChangePassword} />
+          </div>
+          <div>
+            <label htmlFor="user-password-chk">비밀번호 체크</label>
+            <br />
+            <Input name="user-password-check" value={passwordCheck} type="password" required onChange={onChangePasswordChk} />
+            {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
+          </div>
+          <div style={{ marginTop: '10' }}>
+            <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>이에 동의합니다.</Checkbox>
+            {termError && <div style={{ color: 'red' }}>약관에 동의하세요</div>}
+          </div>
+          <div>
+            <Button type="primary" htmlType="submit" loading={isSigningUp}>가입하기</Button>
+          </div>
+        </Form>
+      </>
+    );
+};
 
 export default Signup;
