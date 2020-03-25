@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
  Form, Input, Checkbox, Button,
 } from 'antd';
 import Password from 'antd/lib/input/Password';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 
 // const TextInput = ({value}) => {
@@ -32,7 +33,14 @@ const Signup = () => {
     const [termError, setTermError] = useState(false);
     const [id, onChangeId] = useInput(''); // 커스텀 훅 사용
     const dispatch = useDispatch();
-    const { isSigningUp } = useSelector(state => state.user);
+    const { isSigningUp, me } = useSelector(state => state.user);
+
+    useEffect(() => {
+        if (me){
+            alert('로그인 후 메인페이지로 이동');
+            Router.push('/');
+        }
+    }, [me && me.id]);
 
 
     const onSubmit = useCallback((e) => {

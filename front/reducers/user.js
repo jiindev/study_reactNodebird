@@ -4,6 +4,7 @@ const dummyUser = {
     Followings: ['8888'],
     Followers: ['33', '3333'],
     signUpData: {},
+    id: 1,
 };
 
 export const initialState = {
