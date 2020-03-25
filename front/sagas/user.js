@@ -10,7 +10,7 @@ function* login(){
     try {
         // yield call(loginAPI);  //함수 동기적 호출 (응답을 받을 때까지 기다림)
         yield delay(2000);
-        yield put({ //put은 dispatch와 동일
+        yield put({ // put은 dispatch와 동일
             type: LOG_IN_SUCCESS,
         });
     } catch (e){

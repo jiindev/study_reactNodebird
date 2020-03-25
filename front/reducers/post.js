@@ -4,12 +4,21 @@ export const initialState = {
             id: 1,
             nickname: '지인지인',
         },
-        content:'첫 게시글!!!!!!',
-        img:'https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg'
+        content: '첫 게시글!!!!!!',
+        img: 'https://icatcare.org/app/uploads/2018/06/Layer-1704-1920x840.jpg',
     }], // 화면에 보일 포스트들
     imagePaths: [], // 미리보기 이미지 경로
-    addPostError: false, // 포스트 업로드 실패 사유
+    addPostErrorReason: false, // 포스트 업로드 실패 사유
     isAddingPost: false, // 포스트 업로드중
+    postAdded: false, // 포스트 업로드 성공
+};
+
+const dummyPost = {
+    User: {
+        id: 1,
+        nickname: '지인',
+    },
+    content: '나는 더미입니다.',
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
@@ -26,9 +35,9 @@ export const LOAD_USER_POSTS_FAILURE = 'LOAD_USER_POSTS_FAILURE';
 
 export const REMOVE_IMAGE = 'REMOVE_IMAGE';
 
-const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
-const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
-const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
@@ -61,15 +70,29 @@ export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
 export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
 
 
-const addPost = {
-    type: ADD_POST_REQUEST,
-};
-
 const reducer = (state = initialState, action) => {
     switch (action.type){
         case ADD_POST_REQUEST: {
             return {
                 ...state,
+                isAddingPost: true,
+                addPostErrorReason: '',
+                postAdded: false,
+            };
+        }
+        case ADD_POST_SUCCESS: {
+            return {
+                ...state,
+                isAddingPost: false,
+                mainPosts: [dummyPost, ...state.mainPosts],
+                postAdded: true,
+            };
+        }
+        case ADD_POST_FAILURE: {
+            return {
+                ...state,
+                isAddingPost: false,
+                addPostErrorReason: action.error,
             };
         }
         default: {
