@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
  Card, Icon, Button, Avatar, Input, Form, List, Comment,
 } from 'antd';
@@ -8,26 +8,34 @@ import { ADD_COMMENT_REQUEST } from '../reducers/post';
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
-    const [commntText, setCommntText] = useState('');
+    const [commentText, setCommentText] = useState('');
     const { me } = useSelector((state) => state.user);
+    const { commentAdded, isAddingComment } = useSelector((state) => state.post);
     const dispatch = useDispatch();
 
     const onToggleComment = useCallback(() => {
-        setCommentFormOpened((prev) => !prev);
+      setCommentFormOpened(prev => !prev);
     }, []);
 
     const onSubmitComment = useCallback((e) => {
-        e.preventDefault();
-        if (!me){
-            return alert('로그인이 필요합니다');
-        }
-        dispatch({
-            type: ADD_COMMENT_REQUEST,
-        });
-    }, []);
+      e.preventDefault();
+      if (!me) {
+        return alert('로그인이 필요합니다.');
+      }
+      return dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: {
+          postId: post.id,
+        },
+      });
+    }, [me && me.id]);
+
+    useEffect(() => {
+      setCommentText('');
+    }, [commentAdded === true]);
 
     const onChangeCommentText = useCallback((e) => {
-        setCommntText(e.target.value);
+      setCommentText(e.target.value);
     }, []);
 
       return (
@@ -53,21 +61,20 @@ const PostCard = ({ post }) => {
           <>
             <Form onSubmit={onSubmitComment}>
               <Form.Item>
-                <Input.TextArea rows={4} value={commntText} onChange={onChangeCommentText} />
-                <Button type="primary" htmlType="submit">삐약</Button>
+                <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
               </Form.Item>
+              <Button type="primary" htmlType="submit" loading={isAddingComment}>삐약</Button>
             </Form>
             <List
               header={`${post.Comments ? post.Comments.length : 0} 댓글`}
               itemLayout="horizontal"
               dataSource={post.Comments || []}
-              renderItem={(item) => (
+              renderItem={item => (
                 <li>
                   <Comment
                     author={item.User.nickname}
                     avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
                     content={item.content}
-                    datetime={item.createdAt}
                   />
                 </li>
               )}
@@ -84,7 +91,6 @@ PostCard.propTypes = {
         content: PropTypes.string,
         img: PropTypes.string,
         createAt: PropTypes.object,
-        Comments: PropTypes.array,
     }),
 };
 
