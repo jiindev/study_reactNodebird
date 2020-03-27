@@ -6,6 +6,7 @@ const expressSession = require('express-session');
 const dotenv = require('dotenv');
 const passport = require('passport');
 
+const passportConfig = require('./passport');
 const db = require('./models');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
@@ -13,6 +14,7 @@ const postsAPIRouter = require('./routes/posts');
 dotenv.config();
 const app = express();
 db.sequelize.sync();
+passportConfig();
 
 app.use(morgan('dev')); // app.use는 부가적인 요소들(미들웨어)를 붙여줄 수 있다.
 app.use(express.json()); // json 형식의 본문 처리
