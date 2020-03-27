@@ -8,14 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 
-// const TextInput = ({value}) => {
-//     return (
-//         <div>{value}</div>
-//     )
-// };
-// TextInput.propTypes = {
-//     value:propTypes.string,
-// }
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
     const handler = useCallback((e) => {
@@ -54,12 +46,12 @@ const Signup = () => {
         dispatch({
             type: SIGN_UP_REQUEST,
             data: {
-                id,
+                userId: id,
                 password,
-                nick,
+                nickname: nick,
             },
         });
-    }, [password, passwordCheck, term]);
+    }, [id, password, passwordCheck, term]);
     const onChangeNick = useCallback((e) => {
         setNick(e.target.value);
     }, [nick]);

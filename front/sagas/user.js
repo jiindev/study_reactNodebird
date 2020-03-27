@@ -25,14 +25,13 @@ function* watchLogin(){
     yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function signUpAPI() {
-    return axios.post('/login');
+function signUpAPI(signUpData) {
+    return axios.post('http://localhost:3065/api/user', signUpData);
 }
-function* signUp() {
+function* signUp(action) {
     try {
-        // yield call(signUpAPI);  // 함수 동기적 호출 (응답을 받을 때까지 기다림)
-        yield delay(2000);
-        throw new Error('에러에러');
+        yield call(signUpAPI, action.data);  // 함수 동기적 호출 (응답을 받을 때까지 기다림) 
+        // call은 첫번째는 함수, 두번째부터 인자
         yield put({ //put은 dispatch와 동일
             type: SIGN_UP_SUCCESS,
         });
