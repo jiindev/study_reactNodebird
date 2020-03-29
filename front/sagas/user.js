@@ -7,7 +7,9 @@ axios.defaults.baseURL = 'http://localhost:3065/api'
 function loginAPI(loginData){
     //서버에 요청을 보내는 부분
     console.log(loginData);
-    return axios.post('/user/login', loginData);
+    return axios.post('/user/login', loginData, {
+        withCredentials: true, // 서로 쿠키를 주고받을 수 있도록 (front)
+    });
 }
 function* login(action){
     try {
