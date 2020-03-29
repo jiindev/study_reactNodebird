@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
  Menu, Input, Button, Row, Col, Card, Avatar, Form,
 } from 'antd';
 import propTypes from 'prop-types';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 
 const AppLayout = ({ children }) => {
-    const { isLoggedIn } = useSelector((state) => state.user);
+    const { isLoggedIn, me } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    useEffect(() => {
+      if(!me){
+        dispatch({
+          type: LOAD_USER_REQUEST,
+        });
+      } 
+    }, [])
 
     return (
       <div>
@@ -23,7 +32,7 @@ const AppLayout = ({ children }) => {
         </Menu>
         <Row gutter={8}>
           <Col xs={24} md={6}>
-            {isLoggedIn
+            {me
                     ? <UserProfile />
                 : <LoginForm />}
 
