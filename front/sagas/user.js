@@ -2,7 +2,7 @@ import { all, fork, takeLatest, takeEvery, call, put, delay } from 'redux-saga/e
 import axios from 'axios';
 import { LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_IN_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, SIGN_UP_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOG_OUT_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, LOAD_USER_REQUEST } from '../reducers/user';
 import { Result } from 'antd';
-axios.defaults.baseURL = 'http://localhost:3065/api'
+
 
 function logInAPI(loginData){
     //서버에 요청을 보내는 부분
