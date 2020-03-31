@@ -12,15 +12,16 @@ import rootsaga from '../sagas';
 
 // import { initialState } from '../reducers/user';
 
-const NodeBird = ({ Component, store }) => (
+const NodeBird = ({ Component, store, pageProps }) => (
   <>
     <Provider store={store}>
       <Head>
         <title>Nodebird</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.26.9/antd.css" />
+        <link rel="icon" href="data:;base64,iVBORw0KGgo="></link>
       </Head>
       <AppLayout>
-        <Component />
+        <Component {...pageProps} />
       </AppLayout>
     </Provider>
   </>
@@ -29,6 +30,17 @@ const NodeBird = ({ Component, store }) => (
 NodeBird.propTypes = {
   Component: propTypes.elementType.isRequired,
   store: propTypes.object.isRequired,
+  pageProps:propTypes.object.isRequired
+};
+
+NodeBird.getInitialProps = async (context) => {
+  console.log(context);
+  const { ctx, Component } = context;
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  return { pageProps };
 };
 
 const configureStore = (initialState, options) => {
