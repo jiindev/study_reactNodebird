@@ -18,6 +18,7 @@ db.sequelize.sync();
 passportConfig();
 
 app.use(morgan('dev')); // app.use는 부가적인 요소들(미들웨어)를 붙여줄 수 있다.
+app.use('/', express.static('uploads'));
 app.use(cors({
     origin: true, // 요청 주소랑 같도록
     credentials: true // 프론트와 쿠키 주고받을 수 있도록.. front의 axios에서도..

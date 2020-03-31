@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Form, Button, Input } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
 
 
 const PostForm = () => {
@@ -50,6 +50,13 @@ const PostForm = () => {
       imageInput.current.click();
     }, [imageInput.current]);
 
+    const onRemoveImage = useCallback(index=>()=>{ // 뒤에 괄호가 있으면 괄호를 한번 더 붙이는게 패턴 (고차함수) 기존 함수를 확장
+      dispatch({
+        type: REMOVE_IMAGE,
+        index,
+      })
+    },[]);
+
     return (
       <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onSubmit={onSubmitForm}>
         <Input.TextArea maxLength={140} placeholder="무슨 일이 일어났나요?" value={text} onChange={onChangeText} />
@@ -59,11 +66,11 @@ const PostForm = () => {
           <Button type="primary" style={{ float: 'right' }} htmlType="submit" loading={isAddingPost}>짹짹</Button>
         </div>
         <div>
-          {imagePaths.map((v) => (
+          {imagePaths.map((v, i) => (
             <div key={v} style={{ display: 'inline-block' }}>
               <img src={`http://localhost:3065/${v}`} style={{ width: '200px' }} alt={v} />
               <div>
-                <Button>제거</Button>
+                <Button onClick={onRemoveImage(i)}>제거</Button>
               </div>
             </div>
                             ))}
