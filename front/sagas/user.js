@@ -81,20 +81,21 @@ function* watchLogOut(){
 
 
 
-function loadUserAPI(){
+function loadUserAPI(userId){
     console.log('loadUserAPI arrived');
-    return axios.get('/user/', {
+    return axios.get(userId? `/user/${userId}` : '/user/', {
         withCredentials: true,
     });
 }
-function* loadUser(){
+function* loadUser(action){
     console.log('loadUser arrived')
     try {
-        const result = yield call(loadUserAPI);  
+        const result = yield call(loadUserAPI, action.data);  
         console.log(result);
         yield put({ 
             type: LOAD_USER_SUCCESS,
             data: result.data,
+            me: !action.data,
         });
     } catch (e){
         console.error(e);
