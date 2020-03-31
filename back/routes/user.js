@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => { // POST /api/user 회원가입
 router.get('/:id', async(req, res, next) => { // 남의 정보 가져오기 ex) /3
 
     try{
-        await db.Useer.findOne({
+        const user = await db.User.findOne({
             where:{id:parseInt(req.params.id, 10)},
             include:[{
                 model: db.Post,
@@ -61,7 +61,7 @@ router.get('/:id', async(req, res, next) => { // 남의 정보 가져오기 ex) 
         jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length: 0;
         jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length: 0;
         jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length: 0;
-        req.json(jsonUser);
+        res.json(jsonUser);
     }catch(e){
         console.error(e);
         next(e);
@@ -100,7 +100,6 @@ router.post('/login', (req, res, next) => {
                     }],
                     attributes: ['id', 'nickname', 'userId'],
                 });
-                console.log(fullUser);
                 return res.json(fullUser);
             } catch(e) {
                 next(e);
@@ -129,7 +128,7 @@ router.get('/:id/posts', async(req, res, next) => {
     try{
         const posts = await db.Post.findAll({
             where: {
-                UserId: parseInt(rq.params.id, 10),
+                UserId: parseInt(req.params.id, 10),
                 RetweetId: null,
             },
             include:[{

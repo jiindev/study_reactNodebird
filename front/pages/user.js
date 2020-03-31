@@ -11,7 +11,7 @@ const User = ({id}) => {
     const {mainPosts} = useSelector(state=>state.post);
     const {userInfo} = useSelector(state=>state.user);
 
-    useEffect((id) => {
+    useEffect(() => {
         dispatch({
             type:LOAD_USER_REQUEST,
             data: id,

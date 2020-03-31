@@ -5,11 +5,10 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from '../reducers/post';
 import PostCard from '../components/PostCard'
 
 const Hashtag = ({tag}) => {
-    console.log(tag);
     const dispatch = useDispatch();
     const {mainPosts} = useSelector(state=>state.post);
 
-    useEffect((tag) => {
+    useEffect(() => {
         dispatch({
             type: LOAD_HASHTAG_POSTS_REQUEST,
             data: tag
