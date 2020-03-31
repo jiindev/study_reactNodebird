@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, put, delay,call } from 'redux-saga/effects';
 import axios from 'axios';
-import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, ADD_COMMENT_FAILURE, ADD_COMMENT_SUCCESS, ADD_COMMENT_REQUEST, LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_FAILURE, LOAD_COMMENT_SUCCESS, LOAD_COMMENT_FAILURE, LOAD_COMMENT_REQUEST } from '../reducers/post';
+import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, ADD_COMMENT_FAILURE, ADD_COMMENT_SUCCESS, ADD_COMMENT_REQUEST, LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_FAILURE, LOAD_COMMENT_SUCCESS, LOAD_COMMENT_FAILURE, LOAD_COMMENT_REQUEST, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
 
 
 function loadMainPostsAPI(){
@@ -162,6 +162,32 @@ function* watchLoadComments(){
     yield takeLatest(LOAD_COMMENT_REQUEST, loadComments);
 }
 
+function uploadImagesAPI(formData){
+    return axios.get(`post/images`, formData, {
+        withCredentials: true
+    });
+}
+
+function* uploadImages(action) {
+    try {
+        const result = yield call(uploadImagesAPI, action.data);
+        yield put({
+            type: UPLOAD_IMAGES_SUCCESS,
+            data: result.data,
+        });
+    } catch (e) {
+        console.error(e);
+        yield put({
+            type: UPLOAD_IMAGES_FAILURE,
+            error: e,
+        });
+    }
+}
+
+function* watchUploadImages(){
+    yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
+}
+
 export default function* postSaga(){
     yield all([
         fork(watchLoadMainPosts),
@@ -170,5 +196,6 @@ export default function* postSaga(){
         fork(watchLoadComments),
         fork(watchLoadHashtagPosts),
         fork(watchLoadUserPosts),
+        fork(watchUploadImages),
     ]);
 }

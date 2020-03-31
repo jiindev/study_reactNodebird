@@ -53,6 +53,10 @@ export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
+export const UPLOAD_IMAGES_REQUEST = 'UPLOAD_IMAGES_REQUEST';
+export const UPLOAD_IMAGES_SUCCESS = 'UPLOAD_IMAGES_SUCCESS';
+export const UPLOAD_IMAGES_FAILURE = 'UPLOAD_IMAGES_FAILURE';
+
 // 숙제
 
 export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
@@ -62,6 +66,22 @@ export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
 
 const reducer = (state = initialState, action) => {
     switch (action.type){
+        case UPLOAD_IMAGES_REQUEST: {
+            return {
+                ...state,
+            };
+        }
+        case UPLOAD_IMAGES_SUCCESS: {
+            return {
+                ...state,
+                imagePaths: [...state.imagePaths, ...action.data]
+            };
+        }
+        case UPLOAD_IMAGES_FAILURE: {
+            return {
+                ...state,
+            };
+        }
         case ADD_POST_REQUEST: {
             return {
                 ...state,
