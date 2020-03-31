@@ -163,7 +163,7 @@ function* watchLoadComments(){
 }
 
 function uploadImagesAPI(formData){
-    return axios.get(`post/images`, formData, {
+    return axios.post(`post/images`, formData, {
         withCredentials: true
     });
 }
