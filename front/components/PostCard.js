@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENT_REQUEST } from '../reducers/post';
+import PostImages from './PostImages';
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -50,7 +51,7 @@ const PostCard = ({ post }) => {
         <div>
           <Card
             key={+post.createAt}
-            cover={post.img && <img alt="example" src={post.img} />}
+            cover={post.Images[0] && <PostImages images={post.Images}/>}
             actions={[
               <Icon type="retweet" key="retweet" />,
               <Icon type="heart" key="heart" />,
@@ -59,6 +60,7 @@ const PostCard = ({ post }) => {
                             ]}
             extra={<Button>팔로우</Button>}
           >
+            
             <Card.Meta
               avatar={<Link href={{pathname:'/user', query:{id:post.User.id} }} as={`/user/${post.User.id}`}><a><Avatar>{post.User.nickname[0]}</Avatar></a></Link>}
               title={post.User.nickname}
@@ -66,7 +68,8 @@ const PostCard = ({ post }) => {
                 {post.content.split(/(#[^\s]+)/g).map((v)=>{
                 if(v.match(/#[^s]+/)){
                   return (
-                    <Link href={{pathname:'/hashtag', query:{tag:v.slice(1)}}}  as={`/hashtag/${v.slice(1)}`} key={v}><a>{v}</a></Link>
+                    <Link href={{pathname:'/hashtag', query:{tag:v.slice(1)}}}  
+                    as={`/hashtag/${v.slice(1)}`} key={v}><a>{v}</a></Link>
                   );
                 }
                 return v;
@@ -98,6 +101,7 @@ const PostCard = ({ post }) => {
             />
           </>
           )}
+          
         </div>
       );
 };

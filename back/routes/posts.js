@@ -8,6 +8,8 @@ router.get('/', async(req, res, next) => { // GET /api/posts
             include: [{
                 model: db.User,
                 attributes: ['id', 'nickname']
+            },{
+                model: db.Image
             }],
             order: [['createdAt', 'DESC' ], ['updatedAt', 'ASC']], //DESC 내림차순, ASD 오름차순
         });
