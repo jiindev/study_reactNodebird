@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const db = require('../models');
-const {isLoggedIn} = require('./middleware');
+const {isLoggedIn, postExists} = require('./middleware');
 const router = express.Router();
 
 const upload = multer({
@@ -68,12 +68,8 @@ router.post('/images', upload.array('image'), (req, res) => {
     res.json(req.files.map(v=>v.filename));
 });
 
-router.get('/:id/comments', async(req, res, next)=>{
+router.get('/:id/comments', postExists, async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
-        if(!post){
-            return res.status(404).send('존재하지 않는 포스트입니다.');
-        }
         const comments = await db.Comment.findAll({
             where:{
                 postId: req.params.id,
@@ -90,12 +86,9 @@ router.get('/:id/comments', async(req, res, next)=>{
         next(e);
     }
 });
-router.post('/:id/comment', isLoggedIn, async(req, res, next)=>{
+router.post('/:id/comment', isLoggedIn, postExists, async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
-        if(!post){
-            return res.status(404).send('존재하지 않는 포스트입니다.');
-        }
+        const post = req.post;
         const newComment = await db.Comment.create({
             PostId: post.id,
             UserId: req.user.id,
@@ -118,12 +111,9 @@ router.post('/:id/comment', isLoggedIn, async(req, res, next)=>{
     }
 });
 
-router.post('/:id/like', isLoggedIn, async(req, res, next)=>{
+router.post('/:id/like', isLoggedIn, postExists, async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
-        if(!post){
-            return res.status(404).send('존재하지 않는 포스트입니다.');
-        }
+        const post = req.post;
         await post.addLiker(req.user.id);
         res.json({userId: req.user.id});
     }catch(e){
@@ -132,12 +122,9 @@ router.post('/:id/like', isLoggedIn, async(req, res, next)=>{
     }
 });
 
-router.delete('/:id/like', isLoggedIn, async(req, res, next)=>{
+router.delete('/:id/like', isLoggedIn, postExists, async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
-        if(!post){
-            return res.status(404).send('존재하지 않는 포스트입니다.');
-        }
+        const post = req.post;
         await post.removeLiker(req.user.id);
         res.json({userId: req.user.id});
     }catch(e){
@@ -146,12 +133,9 @@ router.delete('/:id/like', isLoggedIn, async(req, res, next)=>{
     }
 })
 
-router.post('/:id/retweet', isLoggedIn, async(req, res, next)=>{
+router.post('/:id/retweet', isLoggedIn, postExists, async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
-        if(!post){
-            return res.status(404).send('존재하지 않는 포스트입니다.');
-        }
+        const post = req.post;
         if(req.user.id === post.UserId){
             return res.status(403).send('자신의 글은 리트윗 할 수 없습니다.');
         }
