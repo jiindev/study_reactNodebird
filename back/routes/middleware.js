@@ -18,7 +18,13 @@ exports.isNotLoggedIn = (req,res,next)=>{
 
 exports.postExists = async(req, res, next)=>{
     try{
-        const post = await db.Post.findOne({where:{id:req.params.id}});
+        const post = await db.Post.findOne({
+            where:{id:req.params.id},
+            include: [{
+                model: db.Post,
+                as: 'Retweet'
+            }]
+        });
         if(!post){
             return res.status(404).send('존재하지 않는 포스트입니다.');
         }

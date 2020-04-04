@@ -136,7 +136,7 @@ router.delete('/:id/like', isLoggedIn, postExists, async(req, res, next)=>{
 router.post('/:id/retweet', isLoggedIn, postExists, async(req, res, next)=>{
     try{
         const post = req.post;
-        if(req.user.id === post.UserId){
+        if(req.user.id === post.UserId || (post.Retweet && post.Retweet.UserId === req.user.id)){
             return res.status(403).send('자신의 글은 리트윗 할 수 없습니다.');
         }
         const retweetTargetId = post.RetweetId || post.id;
