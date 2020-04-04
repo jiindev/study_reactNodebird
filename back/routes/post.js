@@ -118,4 +118,32 @@ router.post('/:id/comment', isLoggedIn, async(req, res, next)=>{
     }
 });
 
+router.post('/:id/like', isLoggedIn, async(req, res, next)=>{
+    try{
+        const post = await db.Post.findOne({where:{id:req.params.id}});
+        if(!post){
+            return res.status(404).send('존재하지 않는 포스트입니다.');
+        }
+        await post.addLiker(req.user.id);
+        res.json({userId: req.user.id});
+    }catch(e){
+        console.error(e);
+        next(e);
+    }
+});
+
+router.delete('/:id/like', isLoggedIn, async(req, res, next)=>{
+    try{
+        const post = await db.Post.findOne({where:{id:req.params.id}});
+        if(!post){
+            return res.status(404).send('존재하지 않는 포스트입니다.');
+        }
+        await post.removeLiker(req.user.id);
+        res.json({userId: req.user.id});
+    }catch(e){
+        console.error(e);
+        next(e);
+    }
+})
+
 module.exports = router;

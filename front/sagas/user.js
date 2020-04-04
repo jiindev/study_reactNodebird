@@ -6,14 +6,12 @@ import { Result } from 'antd';
 
 function logInAPI(loginData){
     //서버에 요청을 보내는 부분
-    console.log(loginData);
     return axios.post('/user/login', loginData, {
         withCredentials: true, // 서로 쿠키를 주고받을 수 있도록 (front)
     });
 }
 function* logIn(action){
     try {
-        console.log('ok1');
         const result = yield call(logInAPI, action.data);  //함수 동기적 호출 (응답을 받을 때까지 기다림)
         yield put({ // put은 dispatch와 동일
             type: LOG_IN_SUCCESS,
