@@ -1,7 +1,7 @@
 import { all, fork, takeLatest, put, delay,call } from 'redux-saga/effects';
 import axios from 'axios';
 import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, ADD_COMMENT_FAILURE, ADD_COMMENT_SUCCESS, ADD_COMMENT_REQUEST, LOAD_MAIN_POSTS_REQUEST, LOAD_MAIN_POSTS_SUCCESS, LOAD_MAIN_POSTS_FAILURE, LOAD_HASHTAG_POSTS_SUCCESS, LOAD_HASHTAG_POSTS_FAILURE, LOAD_HASHTAG_POSTS_REQUEST, LOAD_USER_POSTS_SUCCESS, LOAD_USER_POSTS_REQUEST, LOAD_USER_POSTS_FAILURE, LOAD_COMMENT_SUCCESS, LOAD_COMMENT_FAILURE, LOAD_COMMENT_REQUEST, UPLOAD_IMAGES_FAILURE, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_REQUEST, LIKE_POST_SUCCESS, LIKE_POST_REQUEST, LIKE_POST_FAILURE, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS, UNLIKE_POST_FAILURE, RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE } from '../reducers/post';
-
+import { ADD_POST_TO_ME } from '../reducers/user';
 
 function loadMainPostsAPI(){
     return axios.get('/posts');
@@ -94,6 +94,10 @@ function* addPost(action) {
             type: ADD_POST_SUCCESS,
             data: result.data,
         });
+        yield put({
+            type: ADD_POST_TO_ME,
+            data: result.data.id,
+        })
     } catch (e) {
         yield put({
             type: ADD_POST_FAILURE,
