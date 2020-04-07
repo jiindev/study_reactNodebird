@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {Button, List, Card, Icon} from 'antd';
 import NicknameEditForm from '../components/NicknameEditForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ const Profile = () => {
     const dispatch = useDispatch();
     const {me, followerList, followingList} = useSelector(state=>state.user);
     const {mainPosts} = useSelector(state=>state.post);
+
     useEffect(() => {
         if(me){
             dispatch({

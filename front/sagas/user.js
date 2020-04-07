@@ -1,6 +1,6 @@
 import { all, fork, takeLatest, takeEvery, call, put, delay } from 'redux-saga/effects';
 import axios from 'axios';
-import { LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_IN_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, SIGN_UP_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOG_OUT_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, LOAD_USER_REQUEST, FOLLOW_USER_REQUEST, FOLLOW_USER_FAILURE, FOLLOW_USER_SUCCESS, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS } from '../reducers/user';
+import { LOG_IN_SUCCESS, LOG_IN_FAILURE, LOG_IN_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, SIGN_UP_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE, LOG_OUT_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE, LOAD_USER_REQUEST, FOLLOW_USER_REQUEST, FOLLOW_USER_FAILURE, FOLLOW_USER_SUCCESS, LOAD_FOLLOWERS_SUCCESS, LOAD_FOLLOWERS_FAILURE, LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_SUCCESS, LOAD_FOLLOWINGS_FAILURE, LOAD_FOLLOWINGS_REQUEST, REMOVE_FOLLOWER_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, EDIT_NICKNAME_SUCCESS, EDIT_NICKNAME_FAILURE, EDIT_NICKNAME_REQUEST } from '../reducers/user';
 import { Result } from 'antd';
 import { RETWEET_REQUEST, RETWEET_SUCCESS, RETWEET_FAILURE, UNFOLLOW_USER_SUCCESS, UNFOLLOW_USER_FAILURE, UNFOLLOW_USER_REQUEST, REMOVE_POST_SUCCESS } from '../reducers/post';
 
@@ -244,7 +244,31 @@ function* watchRemoveFollower(){
     yield takeEvery(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
 
+function editNicknameAPI(nickname){
+    return axios.patch(`/user/nickname`, {nickname}, { //전체 수정은 put, 부분 수정은  patch
+        withCredentials: true,
+    });
+}
+function* editNickname(action){
+    try {
+        const result = yield call(editNicknameAPI, action.data);  
+        yield put({ 
+            type: EDIT_NICKNAME_SUCCESS,
+            data: result.data,
+        });
+    } catch (e){
+        console.error(e);
+        yield put({
+            type: EDIT_NICKNAME_FAILURE,
+            error: e,
+        });
+    }
+}
 
+
+function* watchEditNickname(){
+    yield takeEvery(EDIT_NICKNAME_REQUEST, editNickname);
+}
 
 
 
@@ -259,5 +283,6 @@ export default function* userSaga(){
         fork(watchLoadFollowings),
         fork(watchLoadFollowers),
         fork(watchRemoveFollower),
+        fork(watchEditNickname),
     ]);
 }
