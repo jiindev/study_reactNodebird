@@ -90,11 +90,11 @@ function addPostAPI(postData){
 function* addPost(action) {
     try {
         const result = yield call(addPostAPI, action.data);
-        yield put({
+        yield put({ //post reducer의 데이터를 수정
             type: ADD_POST_SUCCESS,
             data: result.data,
         });
-        yield put({
+        yield put({ //user reducer의 데이터를 수정
             type: ADD_POST_TO_ME,
             data: result.data.id,
         })
