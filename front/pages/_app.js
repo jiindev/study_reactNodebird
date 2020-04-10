@@ -9,6 +9,8 @@ import createSagaMiddleware from "redux-saga";
 import reducer from "../reducers";
 import AppLayout from "../components/AppLayout";
 import rootsaga from "../sagas";
+import { LOAD_USER_REQUEST } from "../reducers/user";
+import axios from "axios";
 
 // import { initialState } from '../reducers/user';
 
@@ -51,6 +53,16 @@ NodeBird.getInitialProps = async (context) => {
   console.log(context);
   const { ctx, Component } = context;
   let pageProps = {};
+  const state = ctx.store.getState();
+  const cookie = ctx.isServer ? ctx.req.headers.cookie : ""; //서버 환경이라 쿠키를 직접 넣어주어야 함
+  if (ctx.isServer && cookie) {
+    axios.defaults.headers.cookie = cookie;
+  }
+  if (!state.user.me) {
+    ctx.store.dispatch({
+      type: LOAD_USER_REQUEST,
+    });
+  }
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
