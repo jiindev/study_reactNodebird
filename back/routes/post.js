@@ -68,6 +68,20 @@ router.post('/images', upload.array('image'), (req, res) => {
     res.json(req.files.map(v=>v.filename));
 });
 
+router.delete('/:id', isLoggedIn, postExists, async(req, res, next)=>{
+    try{
+        await db.Post.destroy({
+            where: {
+                id: req.params.id
+            }
+        });
+        res.send(req.params.id);
+    }catch(e){
+        console.error(e);
+        next(e);
+    }
+});
+
 router.get('/:id/comments', postExists, async(req, res, next)=>{
     try{
         const comments = await db.Comment.findAll({
