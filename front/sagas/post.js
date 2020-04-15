@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, put, delay, call } from "redux-saga/effects";
+import { all, fork, takeLatest, put, delay, throttle, call } from "redux-saga/effects";
 import axios from "axios";
 import {
   ADD_POST_REQUEST,
@@ -58,7 +58,7 @@ function* loadMainPosts(action) {
 }
 
 function* watchLoadMainPosts() {
-  yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+  yield throttle(2000, LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
 }
 
 function loadHashtagPostsAPI(tag, lastId) {
