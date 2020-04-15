@@ -5,7 +5,16 @@ const router = express.Router();
 
 router.get('/:tag', async(req, res, next)=>{
     try{
+        let where= {}
+        if(parseInt(req.query.lastId, 10)){
+            where = {
+                id: {
+                    [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10),
+                }
+            }
+        }
         const posts = await db.Post.findAll({
+            where,
             include: [{
                 model: db.Hashtag,
                 where: {name:decodeURIComponent(req.params.tag)}, // 특수문자, 한자를 제대로 처리하기 위해 제대로된 글자로 바꿔줌
@@ -28,7 +37,8 @@ router.get('/:tag', async(req, res, next)=>{
                 },{
                     model: db.Image
                 }]
-            }]
+            }],
+            limit: parseInt(req.query.limit, 10)
         });
         res.json(posts);
     }catch(e){
