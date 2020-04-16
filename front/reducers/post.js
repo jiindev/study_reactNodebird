@@ -10,6 +10,7 @@ export const initialState = {
     isAddingComment: false,
     addCommentErrorReason: '',
     commentAdded: false,
+    singlePost: null,
 };
 
 
@@ -66,6 +67,10 @@ export const FOLLOW_USER_FAILURE = 'FOLLOW_USER_FAILURE';
 export const UNFOLLOW_USER_REQUEST = 'UNFOLLOW_USER_REQUEST';
 export const UNFOLLOW_USER_SUCCESS = 'UNFOLLOW_USER_SUCCESS';
 export const UNFOLLOW_USER_FAILURE = 'UNFOLLOW_USER_FAILURE';
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 
 // 숙제
@@ -199,6 +204,16 @@ const reducer = (state = initialState, action) => {
                 break;
             }
             case REMOVE_POST_FAILURE: {
+                break;
+            }
+            case LOAD_POST_REQUEST: {
+                break;
+            }
+            case LOAD_POST_SUCCESS: {
+                draft.singlePost = action.data;
+                break;
+            }
+            case LOAD_POST_FAILURE: {
                 break;
             }
             default: {
