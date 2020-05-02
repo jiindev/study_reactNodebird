@@ -10,11 +10,17 @@ import AppLayout from "../components/AppLayout";
 import rootsaga from "../sagas";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 import axios from "axios";
-import {Container} from 'next/app';
+import App, {Container} from 'next/app';
 import {Helmet} from 'react-helmet';
 
-// import { initialState } from '../reducers/user';
+// class NodeBird extends App{
+//   static getInitialProps(context){
 
+//   }
+//   render(){
+    
+//   }
+// }
 const NodeBird = ({ Component, store, pageProps }) => (
   <>
     <Container>

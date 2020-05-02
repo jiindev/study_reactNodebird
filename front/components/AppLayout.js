@@ -3,8 +3,8 @@ import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd";
 import propTypes from "prop-types";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfile";
+import LoginForm from "../containers/LoginForm";
+import UserProfile from "../containers/UserProfile";
 import Router from "next/router";
 
 const AppLayout = ({ children }) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+import PostForm from "../containers/PostForm";
+import PostCard from "../containers/PostCard";
 import { loginAction, logoutAction } from "../reducers/user";
 import { LOAD_MAIN_POSTS_REQUEST } from "../reducers/post";
 
