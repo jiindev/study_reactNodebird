@@ -8,6 +8,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ADD_COMMENT_REQUEST, LOAD_COMMENT_REQUEST, UNLIKE_POST_REQUEST, LIKE_POST_REQUEST, RETWEET_REQUEST, UNFOLLOW_USER_REQUEST, FOLLOW_USER_REQUEST, REMOVE_POST_REQUEST } from '../reducers/post';
 import PostImages from './PostImages';
 import PostCardContent from './PostCardContent';
+import styled from 'styled-components';
+
+const CardWrapper = styled.div`
+  margin-bottom: 20px;
+`;
 
 const PostCard = ({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -98,7 +103,7 @@ const PostCard = ({ post }) => {
     })
 
       return (
-        <div>
+        <CardWrapper>
           <Card
             key={+post.createAt}
             cover={post.Images[0] && <PostImages images={post.Images}/>}
@@ -181,7 +186,7 @@ const PostCard = ({ post }) => {
           </>
           )}
           
-        </div>
+        </CardWrapper>
       );
 };
 
