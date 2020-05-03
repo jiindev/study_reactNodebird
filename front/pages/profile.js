@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { Button, List, Card, Icon } from "antd";
-import NicknameEditForm from "../components/NicknameEditForm";
+import NicknameEditForm from "../containers/NicknameEditForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   LOAD_FOLLOWERS_REQUEST,
@@ -11,7 +11,7 @@ import {
   LOAD_USER_POSTS_REQUEST,
   UNFOLLOW_USER_REQUEST,
 } from "../reducers/post";
-import PostCard from "../components/PostCard";
+import PostCard from "../containers/PostCard";
 
 const Profile = () => {
   const dispatch = useDispatch();
