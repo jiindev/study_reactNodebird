@@ -1,6 +1,12 @@
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: 'true',
+  });
+
+module.exports = withBundleAnalyzer({
     distDir: '.next',
     webpack(config) {
+        console.log('config', config);
+        console.log('rules', config.module.rules[0]);
         const prod = process.env.NODE_ENV === 'production';
         return {
             ...config,
@@ -8,4 +14,4 @@ module.exports = {
             devtool: prod ? 'hidden-source-map' : 'eval',
         };
     }
-};
+});
