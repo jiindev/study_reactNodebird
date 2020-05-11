@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, memo } from 'react';
+import React, { useState, useCallback, useEffect, memo, useRef } from 'react';
 import Link from 'next/link';
 import {
  Card, Icon, Button, Avatar, Input, Form, List, Comment, Popover,
@@ -11,6 +11,7 @@ import PostCardContent from '../components/PostCardContent';
 import styled from 'styled-components';
 import moment from 'moment';
 import CommentForm from './CommentForm';
+import FollowButton from '../components/FollowButton';
 
 moment.locale('ko');
 
@@ -20,9 +21,9 @@ const CardWrapper = styled.div`
 
 const PostCard = memo(({ post }) => {
     const [commentFormOpened, setCommentFormOpened] = useState(false);
-    const { me } = useSelector((state) => state.user);
+    const id = useSelector((state) => state.user.me && state.user.me.id);
     const dispatch = useDispatch();
-    const liked = me && post.Likers && post.Likers.find(v=>v.id===me.id);
+    const liked = id && post.Likers && post.Likers.find(v=>v.id===id);
 
     const onToggleComment = useCallback(() => {
       setCommentFormOpened(prev => !prev);
@@ -34,8 +35,16 @@ const PostCard = memo(({ post }) => {
       }
     }, []);
 
+    // const postMemory = useRef(me);
+
+    // console.log('me', me);
+
+    // useEffect(()=>{
+    //   console.log('post useEffect', postMemory.current, post, postMemory.current === me );
+    // }, [me]);
+
     const onToggleLike = useCallback(() => {
-      if(!me){
+      if(!id){
         return alert('로그인이 필요합니다.');
       }
       if(liked){ //좋아요 누른 상태
@@ -49,17 +58,17 @@ const PostCard = memo(({ post }) => {
           data: post.id,
         })
       }
-    }, [me && me.id, post && post.id, liked]);
+    }, [id, post && post.id, liked]);
 
     const onRetweet = useCallback(()=>{
-      if(!me){
+      if(!id){
         return alert('로그인이 필요합니다.');
       }
       return dispatch({
         type: RETWEET_REQUEST,
         data: post.id,
       });
-    }, [me && me.id, post && post.id]);
+    }, [id, post && post.id]);
 
     const onFollow = useCallback(userId => () => {
       dispatch({
@@ -94,7 +103,7 @@ const PostCard = memo(({ post }) => {
                 key="ellipsis" 
                 content={(
                   <Button.Group>
-                    {me && post.UserId === me.id
+                    {id && post.UserId === id
                     ? (
                       <>
                       <Button>수정</Button>
@@ -109,12 +118,7 @@ const PostCard = memo(({ post }) => {
                       </Popover>
                             ]}
             title={post.RetweetId? `${post.User.nickname}님이 리트윗하셨습니다.`: null}
-            extra={!me || post.User.id === me.id
-              ? null
-              : me.Followings && me.Followings.find(v=>v.id === post.User.id)
-              ? <Button onClick={onUnfollow(post.User.id)}>언팔로우</Button>
-              : <Button onClick={onFollow(post.User.id)}>팔로우</Button>
-          }
+            extra={<FollowButton post={post} onUnfollow={onUnfollow} onFollow={onFollow}/>}
           >
             {post.RetweetId && post.Retweet 
             ? (<Card

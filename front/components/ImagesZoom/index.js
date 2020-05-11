@@ -41,7 +41,7 @@ const ImagesZoom = ({images, onClose}) => {
     )
 }
 
-ImagesZoom.prototype = {
+ImagesZoom.propTypes = {
     images: PropTypes.arrayOf(PropTypes.shape({ //object를 더 구체화해서
         src: PropTypes.string,
     })).isRequired,
