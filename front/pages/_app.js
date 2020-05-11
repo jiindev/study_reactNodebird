@@ -42,6 +42,8 @@ const NodeBird = ({ Component, store, pageProps }) => (
           name: 'og:description', content: 'nodebird 사이트'
         }, {
           property: 'og:type', content: 'website'
+        }, {
+          property: 'og:image', content: 'http://localhost:3060/favicon.ico',
         }]}
         link={[{
           rel: 'stylesheet', href:"https://cdnjs.cloudflare.com/ajax/libs/antd/3.26.9/antd.css"

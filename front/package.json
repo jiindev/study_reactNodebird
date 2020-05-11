@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "build": "BUNDLE_ANALYZE=both next build",
+    "build": "ANALYZE=true next build",
     "prestart": "npm run build",
     "start": "NODE_ENV=production next start"
   },
